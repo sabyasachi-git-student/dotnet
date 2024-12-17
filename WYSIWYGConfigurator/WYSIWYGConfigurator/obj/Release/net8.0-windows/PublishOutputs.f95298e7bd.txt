@@ -1,0 +1,5 @@
+D:\personal\Projects\.NET\freelance\Vinayak\WYSIWYG\WYSIWYGConfigurator.exe
+D:\personal\Projects\.NET\freelance\Vinayak\WYSIWYG\WYSIWYGConfigurator.dll
+D:\personal\Projects\.NET\freelance\Vinayak\WYSIWYG\WYSIWYGConfigurator.deps.json
+D:\personal\Projects\.NET\freelance\Vinayak\WYSIWYG\WYSIWYGConfigurator.runtimeconfig.json
+D:\personal\Projects\.NET\freelance\Vinayak\WYSIWYG\WYSIWYGConfigurator.pdb

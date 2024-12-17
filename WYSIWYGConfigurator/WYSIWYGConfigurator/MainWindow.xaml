@@ -1,0 +1,29 @@
+﻿<Window x:Class="WYSIWYGConfigurator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WYSIWYG Configurator" Height="600" Width="900">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Toolbox -->
+        <ListBox Grid.Column="0" Name="Toolbox" Background="LightGray" Margin="5" PreviewMouseDown="Toolbox_PreviewMouseDown">
+            <ListBoxItem Content="Rectangle"/>
+            <ListBoxItem Content="Ellipse"/>
+            <ListBoxItem Content="TextBlock"/>
+        </ListBox>
+
+        <!-- Design Area -->
+        <Canvas Grid.Column="1" Name="DesignArea" Background="White" Margin="5"
+                AllowDrop="True" Drop="DesignArea_Drop" MouseLeftButtonDown="DesignArea_MouseLeftButtonDown">
+        </Canvas>
+
+        <!-- Property Box -->
+        <StackPanel Grid.Column="2" Name="PropertyBox" Background="LightGray" Margin="5">
+            <TextBlock Text="Properties" FontWeight="Bold" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

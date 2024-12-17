@@ -1,0 +1,120 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|d:\\personal\\projects\\.net\\freelance\\vinayak\\wysiwyg\\wysiwygconfigurator\\wysiwygconfigurator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|solutionrelative:wysiwygconfigurator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|d:\\personal\\projects\\.net\\freelance\\vinayak\\wysiwyg\\wysiwygconfigurator\\wysiwygconfigurator\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|solutionrelative:wysiwygconfigurator\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|d:\\personal\\projects\\.net\\freelance\\vinayak\\wysiwyg\\wysiwygconfigurator\\wysiwygconfigurator\\designareacontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|solutionrelative:wysiwygconfigurator\\designareacontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|d:\\personal\\projects\\.net\\freelance\\vinayak\\wysiwyg\\wysiwygconfigurator\\wysiwygconfigurator\\toolboxcontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|solutionrelative:wysiwygconfigurator\\toolboxcontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|d:\\personal\\projects\\.net\\freelance\\vinayak\\wysiwyg\\wysiwygconfigurator\\wysiwygconfigurator\\propertycontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|solutionrelative:wysiwygconfigurator\\propertycontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|d:\\personal\\projects\\.net\\freelance\\vinayak\\wysiwyg\\wysiwygconfigurator\\wysiwygconfigurator\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC4334A7-93DF-4A19-886B-60FBBB0E37E3}|WYSIWYGConfigurator\\WYSIWYGConfigurator.csproj|solutionrelative:wysiwygconfigurator\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DesignAreaContainer.cs",
+              "DocumentMoniker": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\DesignAreaContainer.cs",
+              "RelativeDocumentMoniker": "WYSIWYGConfigurator\\DesignAreaContainer.cs",
+              "ToolTip": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\DesignAreaContainer.cs",
+              "RelativeToolTip": "WYSIWYGConfigurator\\DesignAreaContainer.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-12T18:01:46.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WYSIWYGConfigurator\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\MainWindow.xaml.cs",
+              "RelativeToolTip": "WYSIWYGConfigurator\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAN0AAAAAAAAAAAAAAN0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-12T06:41:53.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "WYSIWYGConfigurator\\MainWindow.xaml",
+              "ToolTip": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\MainWindow.xaml",
+              "RelativeToolTip": "WYSIWYGConfigurator\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-12T06:41:58.383Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PropertyContainer.cs",
+              "DocumentMoniker": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\PropertyContainer.cs",
+              "RelativeDocumentMoniker": "WYSIWYGConfigurator\\PropertyContainer.cs",
+              "ToolTip": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\PropertyContainer.cs",
+              "RelativeToolTip": "WYSIWYGConfigurator\\PropertyContainer.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAADwvzoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-12T18:02:14.311Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ToolboxContainer.cs",
+              "DocumentMoniker": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\ToolboxContainer.cs",
+              "RelativeDocumentMoniker": "WYSIWYGConfigurator\\ToolboxContainer.cs",
+              "ToolTip": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\ToolboxContainer.cs",
+              "RelativeToolTip": "WYSIWYGConfigurator\\ToolboxContainer.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAwwCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-12T18:01:17.809Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "WYSIWYGConfigurator\\AssemblyInfo.cs",
+              "ToolTip": "D:\\personal\\Projects\\.NET\\freelance\\Vinayak\\WYSIWYG\\WYSIWYGConfigurator\\WYSIWYGConfigurator\\AssemblyInfo.cs",
+              "RelativeToolTip": "WYSIWYGConfigurator\\AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T02:50:37.298Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
