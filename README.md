@@ -27,6 +27,15 @@ through an interactive property editor.
    - Install .NET Core SDK (version 6.0 or higher).
 
 2. **Clone the Repository**:
-   ```bash
+   ```bash   
    git clone https://github.com/YourUsername/WYSIWYGConfigurator.git
    cd WYSIWYGConfigurator
+3.Build and Run:
+
+Open the solution WYSIWYGConfigurator.sln in Visual Studio.
+Set the build configuration to Release.
+Press F5 or click "Start" to run the project.
+
+4.Generate the Executable:
+Go to Build > Publish to create an EXE file.
+The executable will be available in the bin/Release folder.
