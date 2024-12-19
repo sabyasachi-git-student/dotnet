@@ -41,6 +41,7 @@ Go to Build > Publish to create an EXE file.
 The executable will be available in the bin/Release folder.
 
 Extended Description
+
 The WYSIWYG Configurator Application is a powerful tool designed to make UI design and configuration simpler and more interactive. It provides users with a drag-and-drop interface for adding visual components like Rectangles, Ellipses, and TextBlocks to a design area and offers a dynamic property editor for customizing their attributes. The application has been built with scalability and user-friendliness in mind, ensuring an intuitive experience for developers and designers alike.
 
 Key Features
