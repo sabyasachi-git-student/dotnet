@@ -1,0 +1,240 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DevExpress.Web.ASPxTreeList;
+using System.Web.UI;
+using DevExpress.Web;
+
+/// <summary>
+/// Summary description for CustomTreeEditForm
+/// </summary>
+public class CustomTreeEditForm:ITemplate
+{
+    private ASPxTreeList _TreeList;
+    public ASPxTreeList Tree
+    {
+        get
+        {
+            return _TreeList;
+        }
+        set
+        {
+            _TreeList = value;
+        }
+    }
+	public void InstantiateIn(Control container)
+    {
+        int level = 0;
+        ASPxPageControl pc = new ASPxPageControl { ID = "ASPxPageControl1" };
+        pc.TabPages.Add("Edit Informations");
+
+        if (!_TreeList.IsNewNodeEditing)
+        {
+            string type = (container as TreeListEditFormTemplateContainer).GetValue("ContentType").ToString();
+            string parentId = (container as TreeListEditFormTemplateContainer).GetValue("ParentContentID").ToString();
+            if (type == "Root")
+            {
+                ASPxLabel conN = new ASPxLabel { Text = "Content Name :" };
+                ASPxTextBox conName = new ASPxTextBox { ID = "ASPxTextBox1", Text = (container as TreeListEditFormTemplateContainer).GetValue("ContentName").ToString(), Enabled = false };
+                pc.TabPages[0].Controls.Add(conN);
+                pc.TabPages[0].Controls.Add(conName);
+                ASPxLabel conLoc = new ASPxLabel { Text = "Content Position :" };
+                ASPxComboBox conLocal = new ASPxComboBox { ID = "ASPxComboBox3" };
+                conLocal.Items.Clear();
+                conLocal.Items.Add("Root");
+                conLocal.SelectedIndex = 0;
+                conLocal.ReadOnly = true;
+                pc.TabPages[0].Controls.Add(conLoc);
+                pc.TabPages[0].Controls.Add(conLocal);
+                ASPxLabel conT = new ASPxLabel { Text = "Content Type :" };
+                ASPxComboBox conType = new ASPxComboBox { ID = "ASPxComboBox1" };
+                conType.Items.Clear();
+                conType.Items.Add("Root", "R");
+                conType.SelectedIndex = 0;
+                conType.Enabled = false;
+                pc.TabPages[0].Controls.Add(conT);
+                pc.TabPages[0].Controls.Add(conType);
+            }
+            if (type == "Folder")
+            {
+                ASPxLabel conN = new ASPxLabel { Text = "Content Name :" };
+                ASPxTextBox conName = new ASPxTextBox { ID = "ASPxTextBox1", Text = (container as TreeListEditFormTemplateContainer).GetValue("ContentName").ToString() };
+                pc.TabPages[0].Controls.Add(conN);
+                pc.TabPages[0].Controls.Add(conName);
+                ASPxLabel conLoc = new ASPxLabel { Text = "Content Position :" };
+                ASPxComboBox conLocal = new ASPxComboBox { ID = "ASPxComboBox3" };
+                conLocal.Items.Clear();
+                int count = (int)DBAccess.FetchData(String.Format("Select count(*) from tbl_Contents where ParentContentID='{0}'", parentId)).Tables[0].Rows[0][0];
+                for (int i=count; i > 0; i--)
+                {
+                    conLocal.Items.Add(((count+1)-i).ToString());
+                }
+                conLocal.SelectedIndex = conLocal.Items.IndexOfText((container as TreeListEditFormTemplateContainer).GetValue("ContentPosition").ToString());
+                pc.TabPages[0].Controls.Add(conLoc);
+                pc.TabPages[0].Controls.Add(conLocal);
+                ASPxLabel conT = new ASPxLabel { Text = "Content Type" };
+                ASPxComboBox conType = new ASPxComboBox { ID = "ASPxComboBox1" };
+                conType.Items.Clear();
+                conType.Items.Add("Folder", "F");
+                conType.SelectedIndex = 0;
+                conType.Enabled = false;
+                pc.TabPages[0].Controls.Add(conT);
+                pc.TabPages[0].Controls.Add(conType);
+            }
+            if (type == "SubFolder")
+            {
+                ASPxLabel conN = new ASPxLabel { Text = "Content Name :" };
+                ASPxTextBox conName = new ASPxTextBox { ID = "ASPxTextBox1", Text = (container as TreeListEditFormTemplateContainer).GetValue("ContentName").ToString() };
+                pc.TabPages[0].Controls.Add(conN);
+                pc.TabPages[0].Controls.Add(conName);
+                ASPxLabel conLoc = new ASPxLabel { Text = "Content Position :" };
+                ASPxComboBox conLocal = new ASPxComboBox { ID = "ASPxComboBox3" };
+                conLocal.Items.Clear();
+                int count = (int)DBAccess.FetchData(String.Format("Select count(*) from tbl_Contents where ParentContentID='{0}'", parentId)).Tables[0].Rows[0][0];
+                for (int i = count; i > 0; i--)
+                {
+                    conLocal.Items.Add(((count + 1) - i).ToString());
+                }
+                conLocal.SelectedIndex = conLocal.Items.IndexOfText((container as TreeListEditFormTemplateContainer).GetValue("ContentPosition").ToString());
+                pc.TabPages[0].Controls.Add(conLoc);
+                pc.TabPages[0].Controls.Add(conLocal);
+                ASPxLabel conT = new ASPxLabel { Text = "Content Type" };
+                ASPxComboBox conType = new ASPxComboBox { ID = "ASPxComboBox1" };
+                conType.Items.Clear();
+                conType.Items.Add("SubFolder", "S");
+                conType.SelectedIndex = 0;
+                conType.Enabled = false;
+                pc.TabPages[0].Controls.Add(conT);
+                pc.TabPages[0].Controls.Add(conType);
+            }
+            if (type == "Page")
+            {
+                ASPxLabel conN = new ASPxLabel { Text = "Content Name :" };
+                ASPxTextBox conName = new ASPxTextBox { ID = "ASPxTextBox1", Text = (container as TreeListEditFormTemplateContainer).GetValue("ContentName").ToString() };
+                pc.TabPages[0].Controls.Add(conN);
+                pc.TabPages[0].Controls.Add(conName);
+                ASPxLabel conLoc = new ASPxLabel { Text = "Content Position :" };
+                ASPxComboBox conLocal = new ASPxComboBox { ID = "ASPxComboBox3" };
+                conLocal.Items.Clear();
+                int count = (int)DBAccess.FetchData(String.Format("Select count(*) from tbl_Contents where ParentContentID='{0}'", parentId)).Tables[0].Rows[0][0];
+                for (int i = count; i > 0; i--)
+                {
+                    conLocal.Items.Add(((count + 1) - i).ToString());
+                }
+                conLocal.SelectedIndex = conLocal.Items.IndexOfText((container as TreeListEditFormTemplateContainer).GetValue("ContentPosition").ToString());
+                pc.TabPages[0].Controls.Add(conLoc);
+                pc.TabPages[0].Controls.Add(conLocal);
+                ASPxLabel conT = new ASPxLabel { Text = "Content Type" };
+                ASPxComboBox conType = new ASPxComboBox { ID = "ASPxComboBox1" };
+                conType.Items.Clear();
+                conType.Items.Add("Page", "P");
+                conType.SelectedIndex = 0;
+                conType.Enabled = false;
+                pc.TabPages[0].Controls.Add(conT);
+                pc.TabPages[0].Controls.Add(conType);
+                ASPxLabel conL = new ASPxLabel { Text = "Content Link :" };
+                ASPxTextBox conLink = new ASPxTextBox { ID = "ASPxTextBox2", Text = (container as TreeListEditFormTemplateContainer).GetValue("ContentLink").ToString() };
+                pc.TabPages[0].Controls.Add(conL);
+                pc.TabPages[0].Controls.Add(conLink);
+
+                ASPxLabel conV = new ASPxLabel { Text = "Content Visibility :" };
+                ASPxComboBox conVisibility = new ASPxComboBox { ID = "ASPxComboBox2" };
+                conVisibility.Items.Clear();
+                conVisibility.Items.Add("Visible", "V");
+                conVisibility.Items.Add("Invisible", "I");
+                conVisibility.SelectedIndex = conVisibility.Items.IndexOfText((container as TreeListEditFormTemplateContainer).GetValue("ContentVisibility").ToString());
+                pc.TabPages[0].Controls.Add(conV);
+                pc.TabPages[0].Controls.Add(conVisibility);
+            }
+
+            ASPxTreeListTemplateReplacement upd = new ASPxTreeListTemplateReplacement { ReplacementType = TreeListEditFormTemplateReplacementType.UpdateButton, ID = "Update" };
+            pc.TabPages[0].Controls.Add(upd);
+
+            ASPxTreeListTemplateReplacement can = new ASPxTreeListTemplateReplacement { ReplacementType = TreeListEditFormTemplateReplacementType.CancelButton, ID = "Cancel" };
+            pc.TabPages[0].Controls.Add(can);
+            container.Controls.Add(pc);
+        }
+        else
+        {
+            level = (container as TreeListEditFormTemplateContainer).Level;
+            string parentId = _TreeList.NewNodeParentKey;
+            ASPxPageControl pc1 = new ASPxPageControl { ID = "ASPxPageControl1" };
+            pc1.TabPages.Add("Folder");
+            pc1.TabPages.Add("Page");
+
+            ASPxLabel conN1 = new ASPxLabel { Text = "Content Name :" };
+            ASPxTextBox conName1 = new ASPxTextBox { ID = "ASPxTextBox1" };
+            pc1.TabPages[0].Controls.Add(conN1);
+            pc1.TabPages[0].Controls.Add(conName1);
+            ASPxLabel conN2 = new ASPxLabel { Text = "Content Name :" };
+            ASPxTextBox conName2 = new ASPxTextBox { ID = "ASPxTextBox2" };
+            pc1.TabPages[1].Controls.Add(conN2);
+            pc1.TabPages[1].Controls.Add(conName2);
+
+            ASPxLabel conLoc1 = new ASPxLabel { Text = "Content Position :" };
+            ASPxComboBox conLocal1 = new ASPxComboBox { ID = "ASPxComboBox4" };
+            conLocal1.Items.Clear();
+            int count = (int)DBAccess.FetchData(String.Format("Select (count(*)+1) from tbl_Contents where ParentContentID='{0}'", parentId)).Tables[0].Rows[0][0];
+            for (int i = count; i > 0; i--)
+            {
+                conLocal1.Items.Add(i.ToString());
+            }
+            pc1.TabPages[0].Controls.Add(conLoc1);
+            pc1.TabPages[0].Controls.Add(conLocal1);
+
+            ASPxLabel conLoc2 = new ASPxLabel { Text = "Content Position :" };
+            ASPxComboBox conLocal2 = new ASPxComboBox { ID = "ASPxComboBox5" };
+            conLocal2.Items.Clear();
+            for (int i = count; i > 0; i--)
+            {
+                conLocal2.Items.Add(i.ToString());
+            }
+            pc1.TabPages[1].Controls.Add(conLoc2);
+            pc1.TabPages[1].Controls.Add(conLocal2);
+
+            ASPxLabel conT1 = new ASPxLabel { Text = "Content Type" };
+            ASPxComboBox conType1 = new ASPxComboBox { ID = "ASPxComboBox1" };
+            conType1.Items.Clear();
+            if (level == 2)
+            {
+                conType1.Items.Add("Folder", "F");
+                conType1.SelectedIndex = 0;
+            }
+            else
+            {
+                conType1.Items.Add("SubFolder", "S");
+                conType1.SelectedIndex = 0;
+            }
+           
+            pc1.TabPages[0].Controls.Add(conT1);
+            pc1.TabPages[0].Controls.Add(conType1);
+            
+            ASPxLabel conL = new ASPxLabel { Text = "Content Link :" };
+            ASPxTextBox conLink = new ASPxTextBox { ID = "ASPxTextBox3" };
+            pc1.TabPages[1].Controls.Add(conL);
+            pc1.TabPages[1].Controls.Add(conLink);
+
+            ASPxLabel conV = new ASPxLabel { Text = "Content Visibility :" };
+            ASPxComboBox conVisibility = new ASPxComboBox { ID = "ASPxComboBox2" };
+            conVisibility.Items.Clear();
+            conVisibility.Items.Add("Visible","V");
+            conVisibility.Items.Add("Invisible", "I");
+            conVisibility.SelectedIndex = 0;
+            pc1.TabPages[1].Controls.Add(conV);
+            pc1.TabPages[1].Controls.Add(conVisibility);
+
+            ASPxTreeListTemplateReplacement upd1 = new ASPxTreeListTemplateReplacement { ReplacementType = TreeListEditFormTemplateReplacementType.UpdateButton, ID = "Update1" };
+            pc1.TabPages[0].Controls.Add(upd1);
+            ASPxTreeListTemplateReplacement upd2 = new ASPxTreeListTemplateReplacement { ReplacementType = TreeListEditFormTemplateReplacementType.UpdateButton, ID = "Update2" };
+            pc1.TabPages[1].Controls.Add(upd2);
+
+            ASPxTreeListTemplateReplacement can1 = new ASPxTreeListTemplateReplacement { ReplacementType = TreeListEditFormTemplateReplacementType.CancelButton, ID = "Cancel1" };
+            pc1.TabPages[0].Controls.Add(can1);
+            ASPxTreeListTemplateReplacement can2 = new ASPxTreeListTemplateReplacement { ReplacementType = TreeListEditFormTemplateReplacementType.CancelButton, ID = "Cancel2" };
+            pc1.TabPages[1].Controls.Add(can2);
+
+            container.Controls.Add(pc1);
+        }
+        
+    }
+}

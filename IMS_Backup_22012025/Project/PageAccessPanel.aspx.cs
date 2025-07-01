@@ -1,0 +1,472 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Project_PageAccessPanel : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            Gridbind();
+            Group_Bind();
+            User_bind();
+            PageEditGridbind();
+            ASPxPageControl1.ActiveTabIndex = 0;
+            Session["mode"] = null;
+        }
+    }
+    protected void Gridbind()
+    {
+        DataTable dt = new DataTable();
+        dt = DBAccess.FetchData("Exec Get_MenuContentsWithlink_sp 'Page'").Tables[0];
+        Grv_Usergrid.DataSource = dt;
+        Grv_Usergrid.DataBind();
+
+    }
+
+    protected void PageEditGridbind()
+    {
+        DataTable dt = new DataTable();
+        dt = DBAccess.FetchData("Select * from Admin.UserInfo").Tables[0];
+        Gv_PageEdit.DataSource = dt;
+        Gv_PageEdit.DataBind();
+
+    }
+
+    protected void User_bind()
+    {
+        DataTable dt = new DataTable();
+        dt = DBAccess.FetchData("SELECT RowId,UserName FROM tbl_User").Tables[0];
+        ddl_UserName.DataSource = dt;
+        ddl_UserName.DataValueField = "RowId";
+        ddl_UserName.DataTextField = "UserName";
+        ddl_UserName.DataBind();
+        ddl_UserName.Items.Insert(0, "--Select--");
+
+    }
+
+    protected void Group_Bind()
+    {
+        DataTable dt = new DataTable();
+        dt = DBAccess.FetchData("SELECT  [BranchId],[BranchName] FROM [tbl_Branch]").Tables[0];
+        ddl_Branch.DataSource = dt;
+        ddl_Branch.DataValueField = "BranchId";
+        ddl_Branch.DataTextField = "BranchName";
+        ddl_Branch.DataBind();
+        ddl_Branch.Items.Insert(0, "--Select--");
+
+    }
+
+
+    protected void Grv_Usergrid_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        Grv_Usergrid.PageIndex = e.NewPageIndex;
+        // Grv_Usergrid.DataBind();
+        Gridbind();
+    }
+    protected void txt_searchContent_TextChanged(object sender, EventArgs e)
+    {
+        // string txt_searchContentTest = (Grv_Usergrid.FooterRow.FindControl("txt_searchContent") as TextBox).Text;
+        string txt_searchContentTest = txt_searchContent.Text;
+        if (txt_searchContentTest == "")
+        {
+            Gridbind();
+        }
+        else
+        {
+            if (Session["mode"] != "Edit")
+            {
+                DataTable dt = new DataTable();
+                dt = DBAccess.FetchData("SELECT *  FROM tbl_Contents WHERE ContentName like '%" + txt_searchContentTest + "%'").Tables[0];
+                Grv_Usergrid.DataSource = dt;
+                Grv_Usergrid.DataBind();
+            }
+            else
+            {
+                if (txt_searchContent.Text.Trim() != "")
+                {
+                    DataTable dt = new DataTable();
+                    dt = DBAccess.FetchData("Page_access_Search_by_content_and_userid_sp @SearchTerm= '%" + txt_searchContentTest + "%' , @userinfoID='" + ViewState["userinfoid"].ToString() + "'").Tables[0];
+                    Grv_Usergrid.DataSource = dt;
+                    Grv_Usergrid.DataBind();
+
+
+                    for (int i = 0; i < Grv_Usergrid.Rows.Count; i++)
+                    {
+                        CheckBox chk_Visible = (CheckBox)Grv_Usergrid.Rows[i].Cells[0].FindControl("chk_Visible");
+
+                        CheckBox chk_Permission = (CheckBox)Grv_Usergrid.Rows[i].Cells[0].FindControl("chk_Permission");
+
+                        Label lbl_content = (Label)Grv_Usergrid.Rows[i].Cells[0].FindControl("lbl_content");
+
+                        Label lbl_PageLink = (Label)Grv_Usergrid.Rows[i].Cells[0].FindControl("lbl_PageLink");
+
+                        for (int k = 0; k < dt.Rows.Count; k++)
+                        {
+                            if (lbl_content.Text == dt.Rows[k][0].ToString() && dt.Rows[k][2].ToString() == "True")
+                            {
+                                chk_Permission.Checked = true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Gridbind();
+                    fillcontrol(ViewState["userinfoid"].ToString());
+                }
+
+            }
+
+
+        }
+
+
+
+    }
+    protected void ddl_UserName_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DataTable dt = new DataTable();
+        dt = DBAccess.FetchData("Exec Get_userDetailinfo_sp '" + ddl_UserName.SelectedItem.ToString() + "'").Tables[0];
+        txt_Group.Text = dt.Rows[0][3].ToString();
+        txt_Password.Text = dt.Rows[0][2].ToString();
+        Txt_Email.Text = dt.Rows[0][4].ToString();
+
+        dt = DBAccess.FetchData("select * from Admin.UserInfo where UserName = '" + ddl_UserName.SelectedItem.ToString() + "' and UserGroup='" + txt_Group.Text + "'").Tables[0];
+
+        if (dt.Rows.Count >= 1)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('UserName Alreadly Exists Please Go For Edit');", true);
+            clearcontrol();
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('UserName Not Exists Please Check the boxes For Page Access');", true);
+
+        }
+
+    }
+
+    protected void clearcontrol()
+    {
+        ddl_Branch.SelectedIndex = 0;
+        ddl_UserName.SelectedIndex = 0;
+        Txt_Email.Text = "";
+        txt_Group.Text = "";
+        txt_Password.Text = "";
+        txt_PhoneNo.Text = "";
+        txt_searchContent.Text = "";
+        Gridbind();
+        PageEditGridbind();
+        Session["mode"] = null;
+        ViewState["userinfoid"] = "null";
+    }
+    protected void btn_Save_Click(object sender, EventArgs e)
+    {
+        bool savestatus = false;
+        string Mode = "";
+        if (txt_Password.Text != "" && txt_Group.Text != "" && ddl_UserName.SelectedItem.ToString() != "--Select--")
+        {
+            try
+            {
+                Mode = Session["mode"].ToString();
+            }
+            catch
+            {
+
+            }
+            if (Mode != "Edit") //insert
+            {
+                DataTable dtuserinfoid = new DataTable();
+                DataTable dtPageAccessId = new DataTable();
+
+                dtuserinfoid = DBAccess.FetchData("Select Coalesce(max(Rowid),0)+1 from  Admin.UserInfo").Tables[0];
+                String userinfoid = "UID/" + dtuserinfoid.Rows[0][0].ToString();
+                savestatus = DBAccess.SaveData("exec Insert_update_UserInfo @UserInfoId='" + userinfoid + "', @BranchName='" + ddl_Branch.SelectedItem.ToString() + "', @UserGroup='" + txt_Group.Text + "', @UserName='" + ddl_UserName.SelectedItem.ToString() + "', @UserPassword='" + txt_Password.Text + "', @email='" + Txt_Email.Text + "', @Telephone='" + txt_PhoneNo.Text + "'");
+
+                if (savestatus == true)
+                {
+
+                    if (Grv_Usergrid.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < Grv_Usergrid.Rows.Count; i++)
+                        {
+                            CheckBox chk_Permission = (CheckBox)Grv_Usergrid.Rows[i].Cells[0].FindControl("chk_Permission");
+
+                            // CheckBox chk_Visible = (CheckBox)Grv_Usergrid.Rows[i].Cells[0].FindControl("chk_Visible");
+
+                            Label lbl_content = (Label)Grv_Usergrid.Rows[i].Cells[0].FindControl("lbl_content");
+
+                            Label lbl_PageLink = (Label)Grv_Usergrid.Rows[i].Cells[0].FindControl("lbl_PageLink");
+
+                            if (chk_Permission.Checked == true)
+                            {
+
+                                dtPageAccessId = DBAccess.FetchData("Select Coalesce(max(Rowid),0)+1 from  Admin.PageAccess").Tables[0];
+
+                                string PageAccessId = "PA-ID/" + dtPageAccessId.Rows[0][0].ToString();
+
+                                savestatus = DBAccess.SaveData("exec insert_upadte_PageAccess @PageAccessId='" + PageAccessId + "', @UserInfoId='" + userinfoid + "', @MenuContentName='" + lbl_content.Text + "', @PageName='" + lbl_PageLink.Text + "', @Visible='True'");
+                            }
+
+
+                        }
+
+                    }
+
+
+                    if (savestatus == true)
+                    {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('SAVE SUCCESSFULLY');", true);
+                        clearcontrol();
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Something Wrong..!!');", true);
+                        clearcontrol();
+                    }
+
+                }
+
+
+            }
+            else  //update
+            {
+                DataTable dtuserinfo = new DataTable();
+                DataTable dtuserPageAcces = new DataTable();
+                DataTable dtPageAccessId = new DataTable();
+
+                bool visiblestatus = false;
+
+                dtuserinfo = DBAccess.FetchData("Get_UserInfoAndPageAcess'" + ViewState["userinfoid"].ToString() + "' ").Tables[0];
+                dtuserPageAcces = DBAccess.FetchData("Get_UserInfoAndPageAcess'" + ViewState["userinfoid"].ToString() + "' ").Tables[1];
+
+
+                //update userinfo{   }
+                savestatus = DBAccess.SaveData("exec Insert_update_UserInfo @UserInfoId='" + ViewState["userinfoid"].ToString() + "', @BranchName='" + ddl_Branch.SelectedItem.ToString() + "', @UserGroup='" + txt_Group.Text + "', @UserName='" + ddl_UserName.SelectedItem.ToString() + "', @UserPassword='" + txt_Password.Text + "', @email='" + Txt_Email.Text + "', @Telephone='" + txt_PhoneNo.Text + "'");
+
+
+
+
+                if (Grv_Usergrid.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Grv_Usergrid.Rows.Count; i++)
+                    {
+                        CheckBox chk_Visible = (CheckBox)Grv_Usergrid.Rows[i].Cells[0].FindControl("chk_Visible");
+
+                        CheckBox chk_Permission = (CheckBox)Grv_Usergrid.Rows[i].Cells[0].FindControl("chk_Permission");
+
+                        Label lbl_content = (Label)Grv_Usergrid.Rows[i].Cells[0].FindControl("lbl_content");
+
+                        Label lbl_PageLink = (Label)Grv_Usergrid.Rows[i].Cells[0].FindControl("lbl_PageLink");
+
+                        if (chk_Permission.Checked)
+                        {
+                            visiblestatus = true;
+                        }
+                        else
+                        {
+                            visiblestatus = false;
+                        }
+
+                        for (int k = 0; k < dtuserPageAcces.Rows.Count; k++)
+                        {
+                            if (lbl_content.Text == dtuserPageAcces.Rows[k][1].ToString())
+                            {
+                                savestatus = DBAccess.SaveData("exec insert_upadte_PageAccess @PageAccessId='" + dtuserPageAcces.Rows[k][0] + "', @UserInfoId='" + ViewState["userinfoid"].ToString() + "', @MenuContentName='" + dtuserPageAcces.Rows[k][1].ToString() + "', @PageName='" + lbl_PageLink.Text + "', @Visible='" + visiblestatus + "'");
+
+                            }
+                        }
+
+                        if (visiblestatus == true)
+                        {
+                            string newinsert = null;
+                            for (int k = 0; k < dtuserPageAcces.Rows.Count; k++)
+                            {
+
+                                if (lbl_content.Text != dtuserPageAcces.Rows[k][1].ToString())//insert if not exists
+                                {
+                                    newinsert = "insert";
+                                }
+                                else
+                                {
+                                    newinsert = "NoInsert";
+                                    break;
+                                }
+                            }
+
+                            if (newinsert == "insert")
+                            {
+                                dtPageAccessId = DBAccess.FetchData("Select Coalesce(max(Rowid),0)+1 from  Admin.PageAccess").Tables[0];
+                                string PageAccessId = "PA-ID/" + dtPageAccessId.Rows[0][0].ToString();
+                                savestatus = DBAccess.SaveData("exec insert_upadte_PageAccess @PageAccessId='" + PageAccessId + "', @UserInfoId='" + ViewState["userinfoid"].ToString() + "', @MenuContentName='" + lbl_content.Text + "', @PageName='" + lbl_PageLink.Text + "', @Visible='True'");
+
+                            }
+
+
+                        }
+
+                    }
+
+
+
+
+
+
+
+
+                    //dtPageAccessId = DBAccess.FetchData("Select Coalesce(max(Rowid),0)+1 from  Admin.PageAccess").Tables[0];
+
+                    //string PageAccessId = "PA-ID/" + dtPageAccessId.Rows[0][0].ToString();
+
+                    //savestatus = DBAccess.SaveData("exec insert_upadte_PageAccess @PageAccessId='" + PageAccessId + "', @UserInfoId='" + userinfoid + "', @MenuContentName='" + lbl_content.Text + "', @PageName='" + lbl_PageLink.Text + "', @Visible='True'");
+
+
+
+
+
+                }
+
+
+                if (savestatus == true)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('SAVE SUCCESSFULLY');", true);
+                    clearcontrol();
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Something Wrong..!!');", true);
+                    clearcontrol();
+                }
+
+
+
+                Session["mode"] = "null";
+            }
+        }
+        if (savestatus == false)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Something Wrong..!!');", true);
+            clearcontrol();
+        }
+    }
+    protected void Grv_Usergrid_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        //if (e.Row.RowType == DataControlRowType.DataRow)
+        //{
+        //    if (e.Row.RowIndex == 0)
+        //        e.Row.Style.Add("height", "50px");
+        //}
+    }
+    protected void Gv_PageEdit_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Edit")
+        {
+            Session["mode"] = "Edit";
+            fillcontrol(e.CommandArgument.ToString());
+            ViewState["userinfoid"] = e.CommandArgument.ToString();
+        }
+        else
+        {
+            Session["mode"] = null;
+        }
+
+
+    }
+
+    protected void fillcontrol(string userinfoid)
+    {
+        DataTable dtuserinfo = new DataTable();
+        DataTable dtuserPageAcces = new DataTable();
+        dtuserinfo = DBAccess.FetchData("Get_UserInfoAndPageAcess'" + userinfoid + "' ").Tables[0];
+        dtuserPageAcces = DBAccess.FetchData("Get_UserInfoAndPageAcess'" + userinfoid + "' ").Tables[1];
+
+
+        ddl_Branch.SelectedValue = ddl_Branch.Items.FindByText(dtuserinfo.Rows[0][1].ToString()).Value;
+        ddl_UserName.SelectedValue = ddl_UserName.Items.FindByText(dtuserinfo.Rows[0][3].ToString()).Value;
+        txt_Group.Text = dtuserinfo.Rows[0][2].ToString();
+        txt_Password.Text = dtuserinfo.Rows[0][4].ToString();
+        Txt_Email.Text = dtuserinfo.Rows[0][5].ToString();
+        txt_PhoneNo.Text = dtuserinfo.Rows[0][6].ToString();
+
+
+        for (int i = 0; i < Grv_Usergrid.Rows.Count; i++)
+        {
+            CheckBox chk_Visible = (CheckBox)Grv_Usergrid.Rows[i].Cells[0].FindControl("chk_Visible");
+
+            CheckBox chk_Permission = (CheckBox)Grv_Usergrid.Rows[i].Cells[0].FindControl("chk_Permission");
+
+            Label lbl_content = (Label)Grv_Usergrid.Rows[i].Cells[0].FindControl("lbl_content");
+
+            Label lbl_PageLink = (Label)Grv_Usergrid.Rows[i].Cells[0].FindControl("lbl_PageLink");
+
+            for (int k = 0; k < dtuserPageAcces.Rows.Count; k++)
+            {
+                if (lbl_content.Text == dtuserPageAcces.Rows[k][1].ToString() && dtuserPageAcces.Rows[k][3].ToString() == "True")
+                {
+                    chk_Permission.Checked = true;
+                }
+            }
+
+
+
+        }
+        ASPxPageControl1.ActiveTabIndex = 0;
+
+
+
+
+
+
+    }
+    protected void Grv_Usergrid_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+
+    }
+    protected void Gv_PageEdit_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+
+    }
+    protected void btn_clear_Click(object sender, EventArgs e)
+    {
+        clearcontrol();
+    }
+    protected void ASPxPageControl1_ActiveTabChanged(object source, DevExpress.Web.TabControlEventArgs e)
+    {
+
+    }
+    protected void chkALL_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkALL = Grv_Usergrid.HeaderRow.FindControl("chkALL") as CheckBox;
+        if (chkALL.Checked == true)
+        {
+            for (int i = 0; i < Grv_Usergrid.Rows.Count; i++)
+            {
+                CheckBox chk_Permission = Grv_Usergrid.Rows[i].FindControl("chk_Permission") as CheckBox;
+                Label lblstatus = (Label)Grv_Usergrid.Rows[i].FindControl("lblstatus") as Label;
+                if (lblstatus.Text == "Approve" || lblstatus.Text == "Absent")
+                {
+
+                    chk_Permission.Enabled = false;
+
+
+                }
+                else { chk_Permission.Checked = true; }
+            }
+        }
+        if (chkALL.Checked == false)
+        {
+            for (int i = 0; i < Grv_Usergrid.Rows.Count; i++)
+            {
+                CheckBox chk_Permission = Grv_Usergrid.Rows[i].FindControl("chk_Permission") as CheckBox;
+                chk_Permission.Checked = false;
+
+            }
+        }
+    }
+}
